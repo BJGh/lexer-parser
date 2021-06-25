@@ -1,3 +1,5 @@
+package parser;
+
 import java.util.regex.Pattern;
 
 
@@ -7,12 +9,13 @@ public class Terminal {
 
     private final Pattern pattern;
     private final Integer priority;
-    public Terminal(TokenType returnTokenType,String pattern)
+
+    public Terminal(TokenType returnTokenType, String pattern)
     {
         this(returnTokenType,pattern,0);
     }
 
-    public Terminal(TokenType returnTokenType, String pattern,Integer priority)
+    public Terminal(TokenType returnTokenType, String pattern, Integer priority)
     {
          this.returnTokenType=returnTokenType;
          this.pattern = Pattern.compile(pattern);

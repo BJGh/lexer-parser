@@ -1,4 +1,6 @@
 #SPO System software
 
-SPO labs. An Interpreter project. Lexer.
+SPO labs.  
+Lexer  
+Parser with RPN.
 

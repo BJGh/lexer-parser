@@ -1,3 +1,10 @@
+package lexer;
+
+
+
+import parser.Terminal;
+import parser.TokenType;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -7,26 +14,22 @@ public class Lexer {
     private  static final List<Terminal> _terminals = List.of(
        new Terminal(TokenType.VAR, "^[a-zA-Z_]{1}\\w*$"),
        new Terminal(TokenType.NUMBER, "0|[1-9][0-9]*"),
-       new Terminal(TokenType.EQUAL, "="),
-       new Terminal(TokenType.EQUAL_EQUAL,"=="),
-       new Terminal(TokenType.GREATER, ">"),
-       new Terminal(TokenType.LESS,"<"),
-       new Terminal(TokenType.NOT_EQUAL, "!="),
-       new Terminal(TokenType.WHILE,"while",1),
-       new Terminal(TokenType.IF, "if",1),
-       new Terminal(TokenType.ELSE, "else",1),
+       new Terminal(TokenType.ASSIGN, "=",1),
+       new Terminal(TokenType.LOGICAL_OP,"==|>|<|!=",2),
+       new Terminal(TokenType.WHILE_KEYWORD,"while",1),
+       new Terminal(TokenType.IF_KEYWORD, "if",1),
+       new Terminal(TokenType.ELSE_KEYWORD, "else",1),
        new Terminal(TokenType.DO,"do",1),
        new Terminal(TokenType.PRINT,"print"),
        new Terminal(TokenType.LEFT_PAREN,"\\("),
        new Terminal(TokenType.RIGHT_PAREN,"\\)"),
        new Terminal(TokenType.LEFT_BRACE,"\\{"),
        new Terminal(TokenType.RIGTH_BRACE,"\\}"),
-       new Terminal(TokenType.SEMICOLON,";"),
+       new Terminal(TokenType.SC,";"),
        new Terminal(TokenType.STRING,"^s+"),
-       new Terminal(TokenType.PLUS,"\\+"),
-       new Terminal(TokenType.MINUS,"-"),
-       new Terminal(TokenType.MULT,"\\*"),
-       new Terminal(TokenType.DIV,"/"),
+      // new Terminal(TokenType.ARITHMETIC,"[+-/*]|\\+\\+|\\-\\-"),
+             new Terminal(TokenType.MULDIV,"[*/]",4),
+       new Terminal(TokenType.ADDSUB,"[+-]",3),
        new Terminal(TokenType.WHITESPACE, "\\s+")
    );
 
@@ -35,25 +38,20 @@ public class Lexer {
 
 
    public static List<Lexeme> getTokenList(String test) {
-       StringBuilder input = new StringBuilder();
+      StringBuilder input = new StringBuilder();
       List<Lexeme> lexemes = new ArrayList<>();
 
-         input.append(test);
-         input.append('$');
-         while (input.charAt(0) !='$') {
-            Lexeme lexeme = extractNextLexeme(input);
-            lexemes.add(lexeme);
-            if(!lexeme.getTerminal().getTokenType().equals(TokenType.WHITESPACE)){lexemes.add(lexeme);}
-            input.delete(0, lexeme.getValue().length());
-         }
-         return lexemes;
+      input.append(test);
+      input.append('$');
+      while (input.charAt(0) !='$') {
+         Lexeme lexeme = extractNextLexeme(input);
+         lexemes.add(lexeme);
+         if(!lexeme.getTerminal().getTokenType().equals("WHITESPACE")){lexemes.add(lexeme);}
+         input.delete(0, lexeme.getValue().length());
+      }
+      return lexemes;
    }
-   public static void main(String[] args)
-   {
-      String s = "var a var b  var c = a * b";
-      print(getTokenList(s));
 
-   }
 
    private static Lexeme extractNextLexeme(StringBuilder input) {
       StringBuilder builder = new StringBuilder();
@@ -100,7 +98,7 @@ public class Lexer {
       return buff;
    }
 
-   private static void print(List<Lexeme> lexemes)
+    public static void print(List<Lexeme> lexemes)
    {
       for(Lexeme lexeme : lexemes)
       {

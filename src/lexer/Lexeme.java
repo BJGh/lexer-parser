@@ -1,6 +1,11 @@
+package lexer;
+
+import parser.Terminal;
+
 public class Lexeme {
     private final Terminal terminal;
-    private final String value;
+
+    private  String value;
 
     public Lexeme(Terminal terminal, String value)
     {
@@ -8,6 +13,10 @@ public class Lexeme {
         this.value = value;
     }
 
+    public Lexeme setValue(String value) {
+        this.value = value;
+        return null;
+    }
     public Terminal getTerminal()
     {
         return terminal;
@@ -16,5 +25,4 @@ public class Lexeme {
     {
         return value;
     }
-
 }
